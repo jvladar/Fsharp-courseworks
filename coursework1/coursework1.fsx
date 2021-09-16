@@ -185,9 +185,9 @@ let rec notFibonacci (n:int) : (int * int) =
     match n with
     | 0 -> (2, 1)
     | 1 -> (1, 1)
-    | _ -> (fst(notFibonacci(n-2)) + fst(notFibonacci(n-1)), 2)
+    | _ -> (fst(notFibonacci(n-2)) + fst(notFibonacci(n-1)), (snd(notFibonacci(n-2)) + snd(notFibonacci(n-1)) + 1 ))
 
-//notFibonacci 10
+notFibonacci 10
 
 // 7. Define the functions
 // 
