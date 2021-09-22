@@ -79,7 +79,7 @@ let avgAndEq (i1:int ,i2:int, i3:int) : float * (bool * bool * bool) =
     let eq = (i1=i2,i2=i3,i3=i1)
     avg,eq  
 
-avgAndEq (3,3,5)
+//avgAndEq (3,3,5)
     
 
 
@@ -115,7 +115,7 @@ let rec multFromTo (k:int ) (m:int) (n:int) : int  =
   else 
     m
 
-multFromTo 3 1 5
+//multFromTo 3 1 5
 
 
 
@@ -153,7 +153,8 @@ let rec threeN (n:int ) : int  =
     | _ -> 1 + threeN(n/2)
   else 
     0
-threeN(3)
+
+//threeN(3)
 
 
 // 6. Define a function
@@ -190,7 +191,6 @@ let rec notFibonacci (n:int) : (int * int) =
     let (y1,y2) = notFibonacci(n-1)
     x1 + y1, 1 + x2 + y2
 
-notFibonacci 2
 
 // notFibonacci 6
 
@@ -242,5 +242,5 @@ and cosApprox (d:int) (n:float) : float =
         | 0 -> 1.0
         | _ -> (cosApprox(d-1) (n/2.0) * cosApprox(d-1) (n/2.0)) - (sinApprox(d-1) (n/2.0) * sinApprox(d-1) (n/2.0))
 
-// sinApprox 10 0.7
+
 
