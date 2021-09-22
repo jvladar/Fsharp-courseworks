@@ -77,6 +77,8 @@ let avgAnfEq (i1:int ,i2:int, i3:int) : float * (bool * bool * bool) =
     let avg = (float(i1+i2+i3)/3.0)
     let eq = (i1=i2,i2=i3,i3=i1)
     avg,eq  
+
+avgAnfEq (3,4,5)
     
 
 
@@ -112,7 +114,7 @@ let rec multFromTo (k:int ) (m:int) (n:int) : int  =
   else 
     m
 
-//printfn "%d" (multFromTo 4 1 5)
+multFromTo 3 1 5
 
 
 
@@ -150,8 +152,7 @@ let rec threeN (n:int ) : int  =
     | _ -> 1 + threeN(n/2)
   else 
     0
-
-// printfn "%d" (threeN(3))
+threeN(3)
 
 
 // 6. Define a function
