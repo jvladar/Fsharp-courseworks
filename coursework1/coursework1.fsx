@@ -240,7 +240,7 @@ let rec sinApprox (d:int) (n:float) : float =
 and cosApprox (d:int) (n:float) : float = 
     match d with
         | 0 -> 1.0
-        | _ -> (cosApprox(d-1) (n/2.0) * cosApprox(d-1) (n/2.0)) - (sinApprox(d-1) (n/2.0) * sinApprox(d-1) (n/2.0))
+        | _ -> ((cosApprox(d-1) (n/2.0)) ** 2.0) - ((sinApprox(d-1) (n/2.0)) ** 2.0)
 
 
 
