@@ -43,7 +43,8 @@
 // 1. Associate an identifier `intAndBool` with a value that is a pair of
 // an `int` and a `bool`.
 
-type intAndBool = int * bool
+// type intAndBool = int * bool
+let intAndBool = (0,false)
 
 
 // 2. Define a function
