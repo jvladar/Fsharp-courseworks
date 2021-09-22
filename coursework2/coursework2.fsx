@@ -13,7 +13,6 @@
   or Uni-ID: 214328IV
   ------------------------------------
 
-
   Answer the questions below.  You answers to all questions should be
   correct F# code written after the question. This file is an F#
   script file, it should be possible to load the whole file at
@@ -22,7 +21,7 @@
 
   This coursework will be graded. It has to be submitted to the https://gitlab.cs.ttu.ee
   repository itt8060-2021 under your name, into a file coursework2/coursework2.fsx.
-  
+
   NB! Note that the solution has to be an F# script file!
 
   If the location, extension or name of the submission file or directory is incorrect it will not be graded.
@@ -40,21 +39,58 @@
 // * The fourth field represents the year of publication
 
 type BibliographyItem = string list * string * (int * int) * int
-let b1 : BibliographyItem = ([ "Ramakrishna, Bairi";"Ambha, A";"Ganesh, Ramakrishnan"], "Learning to Generate Diversified Query Interpretations using Biconvex Optimization", (733, 739), 2013)
-let b2 : BibliographyItem = ([ "Thomas, Dennis C."; "K, Prakash"; "Harigovind, Gautam"; "Sen, Debashis"],"Lung Consolidation Detection through Analysis of Vocal Resonance Signals",(957,960),2018)
-let b3 : BibliographyItem = ([ "Federico, Ciccozzi"; "Nico, Hochgeschwender"; "Ivano, Malavolta"; "Andreas, Wortmann"],"Report on the 2nd International Workshop on Robotics Software Engineering (RoSE'19)",(38,40),2019)
-let b4 : BibliographyItem = ([ "Sophie F., Jentzsch"; "Sviatlana, Höhn"; "Nico Hochgeschwender"],"Conversational Interfaces for Explainable AI: A Human-Centred Approach",(77,92),2019)
-let b5 : BibliographyItem = ([ "Nico, Hochgeschwender"; "Gary, Cornelius"; "Holger Voos"],"Arguing Security of Autonomous Robots",(7791,7797),2019)
-let b6 : BibliographyItem = (["Nico, Hochgeschwender"],"Adaptive Deployment of Safety Monitors for Autonomous Systems",(346,357),2019)
-let b7 : BibliographyItem = ([],,(),)
 
 // 1. Create a value bibliographyData : BibliographyItem list that contains
-// at least 7 different publications on your favourite topic from https://dblp.uni-trier.de/ 
+// at least 7 different publications on your favourite topic from https://dblp.uni-trier.de/
 // Please note that you need not read the whole papers, just pick 7 papers that look interesting to you from the database.
+let bibliographyData: BibliographyItem list =
+  [ ([ "Bairi, Ramakrishna"
+       "A, Ambha"
+       "Ramakrishnan, Ganesh" ],
+     "Learning to Generate Diversified Query Interpretations using Biconvex Optimization",
+     (733, 739),
+     2013)
+    ([ "Thomas, Dennis C."
+       "K, Prakash"
+       "Harigovind, Gautam"
+       "Sen, Debashis" ],
+     "Lung Consolidation Detection through Analysis of Vocal Resonance Signals",
+     (957, 960),
+     2018)
+    ([ "Ciccozzi, Federico"
+       "Hochgeschwender, Nico"
+       "Malavolta, Ivano"
+       "Wortmann, Andreas" ],
+     "Report on the 2nd International Workshop on Robotics Software Engineering (RoSE'19)",
+     (38, 40),
+     2019)
+    ([ "Jentzsch, Sophie F."
+       "Höhn, Sviatlana"
+       "Hochgeschwender, Nico" ],
+     "Conversational Interfaces for Explainable AI: A Human-Centred Approach",
+     (77, 92),
+     2019)
+    ([ "Hochgeschwender, Nico"
+       "Cornelius, Gary"
+       "Voos, Holger" ],
+     "Arguing Security of Autonomous Robots",
+     (7791, 7797),
+     2019)
+    ([ "Hochgeschwender, Nico" ],
+     "Adaptive Deployment of Safety Monitors for Autonomous Systems",
+     (346, 357),
+      2019)
+    ([ "Nakano, Yoshiyuki"
+       "Azuma, Katsuhiko"
+       "Kamimura, Tadatoshi"
+       "Nabata, Eiji" ],
+     "The Momentum Robot Arm With A Flexible Beam",
+     (1705, 1710),
+     1992)]
 
 
 // 2. Make a function compareLists : string list -> string list -> int that takes two string lists and
-// returns 
+// returns
 // * Less than zero in case the first list precedes the second in the sort order;
 // * Zero in case the first list and second list occur at the same position in the sort order;
 // * Greater than zero in case the first list follows the second list in the sort order;
@@ -69,24 +105,66 @@ let b7 : BibliographyItem = ([],,(),)
 // https://docs.microsoft.com/en-us/dotnet/api/system.globalization
 // Please note that your solution should not force a particular sort order!
 
+let rec compareLists (firstL: string List) (secondL: string List) : int =
+    match (firstL, secondL) with
+    | [], [] -> 0
+    | first::next, second::next2 when first = second -> compareLists next next2
+    | _ -> compare firstL secondL
+
+    (*match (compare first second) with
+    | t when t < 0 -> -1
+    | 0 -> 0
+    | _ -> 1*)
+
+let getAuthors (a, _, _, _) = a
+let aa = getAuthors (bibliographyData.Item(0))
+let bb = getAuthors (bibliographyData.Item(1))
+
+let k = ["Hochgeschwender, Nico";"Cornelius, Gary"]
+let l = ["Hochgeschwender, Nico";"Angor, Gary"]
+let m = ["Hochgeschwender, Nico";"Angor, Gary";"Voos, Holger"]
+
+//printfn "%d" (compareLists l m)
+
+//compareLists(getAuthors(b1),getAuthors(b2))
+
 // 3. Make a function
 // compareAuthors : BibliographyItem -> BibliographyItem -> int
 // that takes two instances of bibliography items and compares them according to the authors.
 // Use solution from task 3.
 
+let compareAuthors (a:BibliographyItem) (b:BibliographyItem) : int =
+    let getAuthors (a, _, _, _) = a
+    compareLists (getAuthors a) (getAuthors b)
+
+//compareAuthors (bibliographyData.Item(0)) (bibliographyData.Item(1))
+
+
 
 // 4. Make a function
-// compareAuthorsYears : BibliographyItem -> BibliographyItem -> int
-// that takes two instances of bibliography items and compares them according to the authors and if the authors are 
-// the same then according to years.
+// compareAuthorsNumPages : BibliographyItem -> BibliographyItem -> int
+// that takes two instances of bibliography items and compares them according to the authors and if the authors are
+// the same then according to the number of pages in the publication.
+let compareAuthorsNumPages (a:BibliographyItem) (b:BibliographyItem) : int =
+  let getNumPages (_, _, c, _) = c 
+  let first = getNumPages(a)
+  let second = getNumPages(b)
+  if (snd(first)-fst(first)) < (snd(second)-fst(second)) then snd(second)-fst(second) else snd(first)-fst(first)
 
-// 5. Make a function 
+compareAuthorsNumPages (bibliographyData.Item(0)) (bibliographyData.Item(1))
+
+
+// 5. Make a function
 // sortBibliographyByNumPages : BibliographyItem list -> BibliographyItem list
 // That returns a bibliography sorted according to the number of pages in the
 // publication in ascending order.
 // If two items are at the same level in the sort order, their order should be preserved.
 
-// 6. Make a function 
+let sortBibliographyByAuthorNumPages (a:BibliographyItem List) : BibliographyItem List =
+  bibliographyData
+sortBibliographyByAuthorNumPages(bibliographyData)
+
+// 6. Make a function
 // sortBibliographyByAuthorNumPages : BibliographyItem list -> BibliographyItem list
 // That returns a bibliography sorted according to the authors and number of pages in the publication in ascending order
 // If two items are at the same level in the sort order, their order should be preserved.
@@ -96,5 +174,3 @@ let b7 : BibliographyItem = ([],,(),)
 // groupByAuthor : BibliographyItem list -> (string * BibliographyItem list) list
 // where the return list contains pairs where the first element is the name of a single
 // author and the second element a list of bibliography items that the author has co-authored.
-
-

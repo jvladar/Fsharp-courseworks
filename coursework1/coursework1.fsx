@@ -46,8 +46,6 @@
 type intAndBool = int * bool
 
 
-
-
 // 2. Define a function
 // 
 //   atMostHalf : int -> int
@@ -79,8 +77,6 @@ let avgAnfEq (i1:int ,i2:int, i3:int) : float * (bool * bool * bool) =
     let eq = (i1=i2,i2=i3,i3=i1)
     avg,eq  
     
-
-
 
 
 // 4. Define a function
@@ -182,12 +178,13 @@ let rec threeN (n:int ) : int  =
 // Use recursion.
 
 let rec notFibonacci (n:int) : (int * int) = 
+    printfn "%d" (1);
     match n with
     | 0 -> (2, 1)
     | 1 -> (1, 1)
-    | _ -> (fst(notFibonacci(n-2)) + fst(notFibonacci(n-1)), (snd(notFibonacci(n-2)) + snd(notFibonacci(n-1)) + 1 ))
+    | _ -> fst(notFibonacci(n-2)) + fst(notFibonacci(n-1)),1 + snd(notFibonacci(n-2)) + snd(notFibonacci(n-1))
 
-notFibonacci 10
+notFibonacci 6
 
 // 7. Define the functions
 // 
@@ -236,10 +233,6 @@ and cosApprox (d:int) (n:float) : float =
     match d with
         | 0 -> 1.0
         | _ -> (cosApprox(d-1) (n/2.0) * cosApprox(d-1) (n/2.0)) - (sinApprox(d-1) (n/2.0) * sinApprox(d-1) (n/2.0))
-
-
-
-System.Math.Sin (0.7)
 
 sinApprox 10 0.7
 
