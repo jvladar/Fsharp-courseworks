@@ -150,7 +150,7 @@ let rec threeN (n:int ) : int  =
   else 
     0
 
-//printfn "%d" (threeN(3))
+// printfn "%d" (threeN(3))
 
 
 // 6. Define a function
@@ -184,7 +184,7 @@ let rec notFibonacci (n:int) : (int * int) =
     | 1 -> (1, 1)
     | _ -> fst(notFibonacci(n-2)) + fst(notFibonacci(n-1)),1 + snd(notFibonacci(n-2)) + snd(notFibonacci(n-1))
 
-notFibonacci 6
+// notFibonacci 6
 
 // 7. Define the functions
 // 
@@ -234,5 +234,5 @@ and cosApprox (d:int) (n:float) : float =
         | 0 -> 1.0
         | _ -> (cosApprox(d-1) (n/2.0) * cosApprox(d-1) (n/2.0)) - (sinApprox(d-1) (n/2.0) * sinApprox(d-1) (n/2.0))
 
-sinApprox 10 0.7
+// sinApprox 10 0.7
 
