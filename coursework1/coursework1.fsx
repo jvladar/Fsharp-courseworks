@@ -61,6 +61,7 @@ let intAndBool = (0,false)
 let atMostHalf (n:int) : int = n/2
 
 
+
 // 3. Define a function
 // 
 // avgAndEq : int * int * int -> float *  (bool * bool * bool)
@@ -73,12 +74,12 @@ let atMostHalf (n:int) : int = n/2
 // Hint:
 //   float : int -> float
 
-let avgAnfEq (i1:int ,i2:int, i3:int) : float * (bool * bool * bool) = 
+let avgAndEq (i1:int ,i2:int, i3:int) : float * (bool * bool * bool) = 
     let avg = (float(i1+i2+i3)/3.0)
     let eq = (i1=i2,i2=i3,i3=i1)
     avg,eq  
 
-avgAnfEq (3,4,5)
+avgAndEq (3,3,5)
     
 
 
@@ -146,7 +147,7 @@ multFromTo 3 1 5
 // https://oeis.org/A006577
 
 let rec threeN (n:int ) : int  = 
-  if (n <> 1) then
+  if n <> 1 then
     match (n%2) with
     | 1 -> 1 + threeN(3 * n + 1)
     | _ -> 1 + threeN(n/2)
@@ -180,10 +181,16 @@ threeN(3)
 // Use recursion.
 
 let rec notFibonacci (n:int) : (int * int) = 
+    printfn "%d" 1
     match n with
     | 0 -> (2, 1)
     | 1 -> (1, 1)
-    | _ -> fst(notFibonacci(n-2)) + fst(notFibonacci(n-1)),1 + snd(notFibonacci(n-2)) + snd(notFibonacci(n-1))
+    | _ -> 
+    let (x1, x2) = notFibonacci(n-2)
+    let (y1,y2) = notFibonacci(n-1)
+    x1 + y1, 1 + x2 + y2
+
+notFibonacci 2
 
 // notFibonacci 6
 
