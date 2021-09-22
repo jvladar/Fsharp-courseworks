@@ -178,7 +178,6 @@ let rec threeN (n:int ) : int  =
 // Use recursion.
 
 let rec notFibonacci (n:int) : (int * int) = 
-    printfn "%d" (1);
     match n with
     | 0 -> (2, 1)
     | 1 -> (1, 1)
