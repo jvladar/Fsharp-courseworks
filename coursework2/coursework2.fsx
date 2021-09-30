@@ -76,7 +76,7 @@ let bibliographyData: BibliographyItem list =
      2019)
     ([ "Hochgeschwender, Nico"],
      "Adaptive Deployment of Safety Monitors for Autonomous Systems",
-     (346, 357),
+     (346, 347),
       2019)
     ([ "Nakano, Yoshiyuki"
        "Azuma, Katsuhiko"
@@ -148,12 +148,12 @@ let compareAuthorsNumPages (a:BibliographyItem) (b:BibliographyItem) : int =
     | 0 -> 
     if (snd(first)-fst(first)) < (snd(second)-fst(second)) then 
       -1 
-    else 1
+    elif (snd(first)-fst(first)) > (snd(second)-fst(second)) then 
+      1
+    else 0
     |_ -> result
     
-
-compareAuthorsNumPages (bibliographyData.Item(0)) (bibliographyData.Item(1))
-
+compareAuthorsNumPages (bibliographyData.Item(4)) (bibliographyData.Item(5))
 
 // 5. Make a function
 // sortBibliographyByNumPages : BibliographyItem list -> BibliographyItem list
