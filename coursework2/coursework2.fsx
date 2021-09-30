@@ -70,13 +70,11 @@ let bibliographyData: BibliographyItem list =
      "Conversational Interfaces for Explainable AI: A Human-Centred Approach",
      (77, 92),
      2019)
-    ([ "Hochgeschwender, Nico"
-       "Cornelius, Gary"
-       "Voos, Holger" ],
+    ([ "Hochgeschwender, Nico"],
      "Arguing Security of Autonomous Robots",
      (7791, 7797),
      2019)
-    ([ "Hochgeschwender, Nico" ],
+    ([ "Hochgeschwender, Nico"],
      "Adaptive Deployment of Safety Monitors for Autonomous Systems",
      (346, 357),
       2019)
@@ -87,6 +85,11 @@ let bibliographyData: BibliographyItem list =
      "The Momentum Robot Arm With A Flexible Beam",
      (1705, 1710),
      1992)]
+
+//[ "Hochgeschwender, Nico"
+//       "Cornelius, Gary"
+//       "Voos, Holger" ]
+
 
 
 // 2. Make a function compareLists : string list -> string list -> int that takes two string lists and
@@ -108,13 +111,13 @@ let bibliographyData: BibliographyItem list =
 let rec compareLists (firstL: string List) (secondL: string List) : int =
     match (firstL, secondL) with
     | [], [] -> 0
-    | first::next, second::next2 when first = second -> compareLists next next2
-    | _ -> compare firstL secondL
+    | [], secondL -> -1 
+    | firstL, [] -> 1 
+    | first::next, second::next2 ->   
+      match System.String.Compare (first,second) with 
+        | 0 -> compareLists next next2
+        | t -> t
 
-    (*match (compare first second) with
-    | t when t < 0 -> -1
-    | 0 -> 0
-    | _ -> 1*)
 
 let getAuthors (a, _, _, _) = a
 let aa = getAuthors (bibliographyData.Item(0))
@@ -139,8 +142,6 @@ let compareAuthors (a:BibliographyItem) (b:BibliographyItem) : int =
 
 //compareAuthors (bibliographyData.Item(0)) (bibliographyData.Item(1))
 
-
-
 // 4. Make a function
 // compareAuthorsNumPages : BibliographyItem -> BibliographyItem -> int
 // that takes two instances of bibliography items and compares them according to the authors and if the authors are
@@ -151,7 +152,7 @@ let compareAuthorsNumPages (a:BibliographyItem) (b:BibliographyItem) : int =
   let second = getNumPages(b)
   if (snd(first)-fst(first)) < (snd(second)-fst(second)) then snd(second)-fst(second) else snd(first)-fst(first)
 
-compareAuthorsNumPages (bibliographyData.Item(0)) (bibliographyData.Item(1))
+//compareAuthorsNumPages (bibliographyData.Item(0)) (bibliographyData.Item(1))
 
 
 // 5. Make a function
@@ -160,17 +161,39 @@ compareAuthorsNumPages (bibliographyData.Item(0)) (bibliographyData.Item(1))
 // publication in ascending order.
 // If two items are at the same level in the sort order, their order should be preserved.
 
-let sortBibliographyByAuthorNumPages (a:BibliographyItem List) : BibliographyItem List =
-  bibliographyData
-sortBibliographyByAuthorNumPages(bibliographyData)
+let sortBibliographyByNumPages (library:BibliographyItem List) : BibliographyItem List =
+  library |> List.sortBy (fun (_,_,(start,finish),_) -> finish-start)
+
+//sortBibliographyByNumPages(bibliographyData)
+
 
 // 6. Make a function
 // sortBibliographyByAuthorNumPages : BibliographyItem list -> BibliographyItem list
 // That returns a bibliography sorted according to the authors and number of pages in the publication in ascending order
 // If two items are at the same level in the sort order, their order should be preserved.
 
+let sortBibliographyByAuthorNumPages (library:BibliographyItem List) : BibliographyItem List =
+  library |> List.sortBy (fun (authors,_,(start,finish),_) -> authors, finish-start)
+
+//sortBibliographyByAuthorNumPages(bibliographyData)
 
 // 7. Make a function
 // groupByAuthor : BibliographyItem list -> (string * BibliographyItem list) list
 // where the return list contains pairs where the first element is the name of a single
 // author and the second element a list of bibliography items that the author has co-authored.
+
+let findBooksByName(library:BibliographyItem List) (x:string) : BibliographyItem List = 
+  library |> List.filter (fun (y,_,_,_) -> List.contains x y)
+
+
+let groupByAuthor(library:BibliographyItem List) : (string * BibliographyItem List) List =
+  library |> List.collect (fun (authors,_,_,_) -> authors) 
+  |> List.distinct 
+  |> List.map (fun x -> (x, findBooksByName library x))
+  
+
+//groupByAuthor(bibliographyData)
+
+
+
+
