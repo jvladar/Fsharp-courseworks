@@ -119,13 +119,6 @@ let rec compareLists (firstL: string List) (secondL: string List) : int =
         | t -> t
 
 
-let getAuthors (a, _, _, _) = a
-let aa = getAuthors (bibliographyData.Item(0))
-let bb = getAuthors (bibliographyData.Item(1))
-
-let k = ["Hochgeschwender, Nico";"Cornelius, Gary"]
-let l = ["Hochgeschwender, Nico";"Angor, Gary"]
-let m = ["Hochgeschwender, Nico";"Angor, Gary";"Voos, Holger"]
 
 //printfn "%d" (compareLists l m)
 
@@ -150,7 +143,14 @@ let compareAuthorsNumPages (a:BibliographyItem) (b:BibliographyItem) : int =
   let getNumPages (_, _, c, _) = c 
   let first = getNumPages(a)
   let second = getNumPages(b)
-  if (snd(first)-fst(first)) < (snd(second)-fst(second)) then snd(second)-fst(second) else snd(first)-fst(first)
+  let result = compareAuthors a b 
+  match result with
+    | 0 -> 
+    if (snd(first)-fst(first)) < (snd(second)-fst(second)) then 
+      -1 
+    else 1
+    |_ -> result
+    
 
 compareAuthorsNumPages (bibliographyData.Item(0)) (bibliographyData.Item(1))
 
