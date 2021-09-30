@@ -152,10 +152,7 @@ let compareAuthorsNumPages (a:BibliographyItem) (b:BibliographyItem) : int =
   let second = getNumPages(b)
   if (snd(first)-fst(first)) < (snd(second)-fst(second)) then snd(second)-fst(second) else snd(first)-fst(first)
 
-
-
-
-//compareAuthorsNumPages (bibliographyData.Item(0)) (bibliographyData.Item(1))
+compareAuthorsNumPages (bibliographyData.Item(0)) (bibliographyData.Item(1))
 
 
 // 5. Make a function
@@ -194,8 +191,6 @@ let groupByAuthor(library:BibliographyItem List) : (string * BibliographyItem Li
   |> List.distinct 
   |> List.map (fun x -> (x, findBooksByName library x))
   
-
-
 //groupByAuthor(bibliographyData)
 
 
