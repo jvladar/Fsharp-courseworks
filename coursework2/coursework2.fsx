@@ -153,7 +153,7 @@ let compareAuthorsNumPages (a:BibliographyItem) (b:BibliographyItem) : int =
     else 0
     |_ -> result
     
-compareAuthorsNumPages (bibliographyData.Item(4)) (bibliographyData.Item(5))
+//compareAuthorsNumPages (bibliographyData.Item(4)) (bibliographyData.Item(5))
 
 // 5. Make a function
 // sortBibliographyByNumPages : BibliographyItem list -> BibliographyItem list
@@ -165,7 +165,6 @@ let sortBibliographyByNumPages (library:BibliographyItem List) : BibliographyIte
   library |> List.sortBy (fun (_,_,(start,finish),_) -> finish-start)
 
 //sortBibliographyByNumPages(bibliographyData)
-
 
 // 6. Make a function
 // sortBibliographyByAuthorNumPages : BibliographyItem list -> BibliographyItem list
@@ -191,7 +190,7 @@ let groupByAuthor(library:BibliographyItem List) : (string * BibliographyItem Li
   |> List.distinct 
   |> List.map (fun x -> (x, findBooksByName library x))
   
-//groupByAuthor(bibliographyData)
+groupByAuthor(bibliographyData)
 
 
 
