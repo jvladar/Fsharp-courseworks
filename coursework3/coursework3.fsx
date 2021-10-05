@@ -151,10 +151,10 @@ let step (d : Dir) (xy : XY) : XY =
   let x = fst(xy)
   let y = snd(xy)
   match d with 
-  | N -> (x+1,y)
-  | E -> (x,y+1)
-  | S -> (x-1,y)
-  | W -> (x,y-1)
+  | N -> (x,y+1)
+  | E -> (x+1,y)
+  | S -> (x,y-1)
+  | W -> (x+1,y)
 
 step W (3,4)
 
