@@ -262,6 +262,7 @@ let performCommands (cs : Command list) (s : State) : State =
 
 
 
+
 // 4. Define the function
 //
 // flipSteps : Command list -> Command list
