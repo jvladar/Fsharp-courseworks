@@ -263,9 +263,9 @@ let performCommand (c : Command) (s : State) : State =
       let fourthStep = (iterate n (step thirdTurn)) thirdStep
       {position = fourthStep; direction=turn thirdTurn; history=history2}
 
-let S = {position = (0,0); direction=N; history=[]} 
-let c = Loop(-2,-2)
-printfn "%A" (performCommand c S)
+//let S = {position = (0,0); direction=N; history=[]} 
+//let c = Loop(-2,-2)
+//printfn "%A" (performCommand c S)
 
 
 // 3. Define the function
