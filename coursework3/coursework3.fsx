@@ -198,10 +198,10 @@ let performCommand (c : Command) (s : State) : State =
       if n<0 then
         let direction = iterate 2 turn s.direction
         let position = (iterate (abs n) (step direction)) s.position
-        {position = position; direction=s.direction; history=position :: s.history}
+        {position = position; direction=s.direction; history=s.position :: s.history}
       else
         let position = (iterate n (step s.direction)) s.position
-        {position = position; direction=s.direction; history=position :: s.history}
+        {position = position; direction=s.direction; history=s.position :: s.history}
     
   | Turn n -> 
     let direction = iterate ((n % 4 + 4) % 4) turn s.direction
@@ -216,7 +216,7 @@ let performCommand (c : Command) (s : State) : State =
       let thirdStep = (iterate (abs m) (step (turnnum 2 secondTurn))) secondStep
       let thirdTurn = turn secondTurn
       let fourthStep = (iterate (abs n) (step (turnnum 2 thirdTurn))) thirdStep
-      {position = fourthStep; direction=turn thirdTurn; history=fourthStep :: s.history}
+      {position = fourthStep; direction=turn thirdTurn; history=s.position :: s.history}
     elif m<0 then 
       let firstStep = (iterate (abs m) (step (turnnum 2 s.direction))) s.position
       let firstTurn = turn s.direction
@@ -225,7 +225,7 @@ let performCommand (c : Command) (s : State) : State =
       let thirdStep = (iterate (abs m) (step (turnnum 2 secondTurn))) secondStep
       let thirdTurn = turn secondTurn
       let fourthStep = (iterate (abs n) (step thirdTurn)) thirdStep
-      {position = fourthStep; direction=turn thirdTurn; history=fourthStep :: s.history}
+      {position = fourthStep; direction=turn thirdTurn; history=s.position :: s.history}
     elif n<0 then 
       let firstStep = (iterate (abs m) (step  s.direction)) s.position
       let firstTurn = turn s.direction
@@ -234,7 +234,7 @@ let performCommand (c : Command) (s : State) : State =
       let thirdStep = (iterate (abs m) (step secondTurn)) secondStep
       let thirdTurn = turn secondTurn
       let fourthStep = (iterate (abs n) (step (turnnum 2 thirdTurn))) thirdStep
-      {position = fourthStep; direction=turn thirdTurn; history=fourthStep :: s.history}
+      {position = fourthStep; direction=turn thirdTurn; history=s.position :: s.history}
     else 
       let firstStep = (iterate m (step s.direction)) s.position
       let firstTurn = turn s.direction
@@ -243,7 +243,7 @@ let performCommand (c : Command) (s : State) : State =
       let thirdStep = (iterate m (step secondTurn)) secondStep
       let thirdTurn = turn secondTurn
       let fourthStep = (iterate n (step thirdTurn)) thirdStep
-      {position = fourthStep; direction=turn thirdTurn; history=fourthStep :: s.history}
+      {position = fourthStep; direction=turn thirdTurn; history=s.position :: s.history}
 
 
 
