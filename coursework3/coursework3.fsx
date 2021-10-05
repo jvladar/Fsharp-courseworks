@@ -261,7 +261,6 @@ let performCommand (c : Command) (s : State) : State =
       let thirdTurn = turn secondTurn
       let fourthStep = (iterate n (step thirdTurn)) thirdStep
       {position = fourthStep; direction=turn thirdTurn; history=history2}
-
 //let S = {position = (-2,-3); direction=W; history=[]} 
 //let c = Loop (3,0)
 //performCommand c S
@@ -359,7 +358,7 @@ let looping (c:Command) : Command list =
 let unpackLoops (c: Command list) : Command list =
   c |> List.collect(fun x -> looping(x))
 
-printfn "%A" (unpackLoops [Turn 2; Step 3; Loop(2,3)])
+//printfn "%A" (unpackLoops [Turn 2; Step 3; Loop(2,3)])
 
 
 // 8. Define the function
