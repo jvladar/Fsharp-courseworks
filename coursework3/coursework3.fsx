@@ -196,8 +196,7 @@ let performCommand (c : Command) (s : State) : State =
   match c with
   | Step n -> 
       if n<0 then
-        let direction = iterate 2 turn s.direction
-        let position = (iterate (abs n) (step direction)) s.position
+        let position = (iterate (abs n) (step (turnnum 2 s.direction))) s.position
         {position = position; direction=s.direction; history=s.position :: s.history}
       else
         let position = (iterate n (step s.direction)) s.position
@@ -263,9 +262,9 @@ let performCommand (c : Command) (s : State) : State =
       let fourthStep = (iterate n (step thirdTurn)) thirdStep
       {position = fourthStep; direction=turn thirdTurn; history=history2}
 
-//let S = {position = (0,0); direction=N; history=[]} 
-//let c = Loop(-2,-2)
-//printfn "%A" (performCommand c S)
+//let S = {position = (-2,-3); direction=W; history=[]} 
+//let c = Loop (3,0)
+//performCommand c S
 
 
 // 3. Define the function
@@ -292,7 +291,13 @@ let performCommands (cs : Command list) (s : State) : State =
 // is replaced with Step -n. Leave other commands the same.
 //
 // Implement this using List.map
+let stepChange(c: Command) : Command =
+  match c with
+  | Step n -> Step -n
+  | _ -> c
 
+let flipSteps (cs : Command list) : Command list =
+  List.map(stepChange) cs
 
 
 
@@ -306,7 +311,13 @@ let performCommands (cs : Command list) (s : State) : State =
 // after performing Turn n. Leave other commands the same.
 //
 // Implement this using List.map
+let turnChange(c: Command) : Command =
+  match c with
+  | Turn n -> Turn ((n+2)%4)
+  | _ -> c
 
+let flipTurns (cs : Command list) : Command list =
+  List.map(turnChange) cs
 
 
 
@@ -318,7 +329,14 @@ let performCommands (cs : Command list) (s : State) : State =
 // that removes from the given list of commands all those that are of the
 // form Loop (m, n) or that are of the form Step k where the absolute
 // value of k is not equal to 1.
+let singleStepChange (c: Command) : bool =
+  match c with
+  | Loop(_) -> false
+  | Step n when (abs n) <> 1  -> false
+  | _ -> true
 
+let singleSteps (cs : Command list) : Command list = 
+  cs |> List.filter(fun com -> singleStepChange(com))
 
 
 
@@ -332,7 +350,16 @@ let performCommands (cs : Command list) (s : State) : State =
 //
 // Implement this using List.collect
 
+let looping (c:Command) : Command list =
+  match c with
+  | Loop(m,n) -> 
+    [Step m; Turn 1;Step n; Turn 1;Step m; Turn 1; Step n; Turn 1;]
+  | _ -> [c]
 
+let unpackLoops (c: Command list) : Command list =
+  c |> List.collect(fun x -> looping(x))
+
+printfn "%A" (unpackLoops [Turn 2; Step 3; Loop(2,3)])
 
 
 // 8. Define the function
