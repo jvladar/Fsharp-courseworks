@@ -389,3 +389,13 @@ let unpackLoops (c: Command list) : Command list =
 //   a sequence of Step or a sequence of Turn moves. If the next move
 //   you see is of a different kind, then you first simplify this part,
 //   add it to the simplified part and then continue.
+let simplifyFold (newC: Command list) (command: Command) =
+    match command, newC with
+    | Step n, Step k :: secondItem -> Step (n + k) :: secondItem 
+    | Turn n, Turn k :: secondItem -> Turn (n + k) :: secondItem
+    | _, newC -> command :: newC
+
+let simplify (clist: Command list): Command list =
+  List.fold simplifyFold [] clist |> List.rev
+
+// printfn "%A" (simplify [Step(0); Turn(0); Step(1); Step(2); Turn(2); Step(2); Step(4); Turn(1); Turn(4); Turn(1); Step(1)])
