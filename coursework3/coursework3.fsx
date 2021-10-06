@@ -234,7 +234,7 @@ let performCommand (c : Command) (s : State) : State =
       let history2 = thirdStep :: history1
       let thirdTurn = turn secondTurn
       let fourthStep = (iterate (abs n) (step thirdTurn)) thirdStep
-      {position = fourthStep; direction=turn thirdTurn; history=history2}
+      {position = fourthStep; direction=turn thirdTurn; history=history2 |> List.distinct}
     elif n<0 then 
       let history0 = s.position :: s.history
       let firstStep = (iterate (abs m) (step  s.direction)) s.position
@@ -247,7 +247,7 @@ let performCommand (c : Command) (s : State) : State =
       let history2 = thirdStep :: history1
       let thirdTurn = turn secondTurn
       let fourthStep = (iterate (abs n) (step (turnnum 2 thirdTurn))) thirdStep
-      {position = fourthStep; direction=turn thirdTurn; history=history2}
+      {position = fourthStep; direction=turn thirdTurn; history=history2 |> List.distinct}
     else
       let history0 = s.position :: s.history 
       let firstStep = (iterate m (step s.direction)) s.position
@@ -260,10 +260,10 @@ let performCommand (c : Command) (s : State) : State =
       let history2 = thirdStep :: history1
       let thirdTurn = turn secondTurn
       let fourthStep = (iterate n (step thirdTurn)) thirdStep
-      {position = fourthStep; direction=turn thirdTurn; history=history2}
-//let S = {position = (-2,-3); direction=W; history=[]} 
-//let c = Loop (3,0)
-//performCommand c S
+      {position = fourthStep; direction=turn thirdTurn; history=history2 |> List.distinct}
+let S = {position = (-2,-3); direction=W; history=[]} 
+let c = Loop (3,0)
+printfn "%A" (performCommand c S)
 
 
 // 3. Define the function
