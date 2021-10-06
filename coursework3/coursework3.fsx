@@ -395,7 +395,7 @@ let simplifyFold (newC: Command list) (command: Command) =
     | Step n, Step k :: secondItem -> Step (n+k) :: secondItem 
     | Turn n, Turn k :: secondItem -> Turn (((n+k)%4 + 4 ) % 4) :: secondItem
     | _, newC -> match command with
-                  | Turn n -> Turn ((n) % 4) :: newC
+                  | Turn n -> Turn (((n)%4 + 4 ) % 4) :: newC
                   | _ -> command :: newC
 
 let simplify (clist: Command list): Command list =
