@@ -267,9 +267,9 @@ let performCommand (c : Command) (s : State) : State =
       let history2 = historyCheck thirdStep fourthStep history1
       {position = fourthStep; direction=turn thirdTurn; history=history2}
       
-let S = {position = (0,0); direction=N; history=[]} 
-let c = Step 0
-printfn "%A" (performCommand c S)
+//let S = {position = (0,0); direction=N; history=[]} 
+//let c = Step 0
+//printfn "%A" (performCommand c S)
 
 
 // 3. Define the function
