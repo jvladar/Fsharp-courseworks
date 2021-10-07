@@ -202,10 +202,10 @@ let performCommand (c : Command) (s : State) : State =
   | Step n -> 
       if n<0 then
         let position = (iterate (abs n) (step (turnnum 2 s.direction))) s.position
-        {position = position; direction=s.direction; history=s.position :: s.history}
+        {position = position; direction=s.direction; history=historyCheck s.position position s.history}
       else
         let position = (iterate n (step s.direction)) s.position
-        {position = position; direction=s.direction; history=s.position :: s.history}
+        {position = position; direction=s.direction; history=historyCheck s.position position s.history}
     
   | Turn n -> 
     let direction = iterate ((n % 4 + 4) % 4) turn s.direction
@@ -267,9 +267,9 @@ let performCommand (c : Command) (s : State) : State =
       let history2 = historyCheck thirdStep fourthStep history1
       {position = fourthStep; direction=turn thirdTurn; history=history2}
       
-//let S = {position = (0,0); direction=N; history=[]} 
-//let c = Loop (0,3)
-//printfn "%A" (performCommand c S)
+let S = {position = (0,0); direction=N; history=[]} 
+let c = Step 0
+printfn "%A" (performCommand c S)
 
 
 // 3. Define the function
