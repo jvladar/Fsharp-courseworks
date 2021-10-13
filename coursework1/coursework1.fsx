@@ -106,16 +106,16 @@ let avgAndEq (i1:int ,i2:int, i3:int) : float * (bool * bool * bool) =
 // 
 // Use recursion. Do not use the `match` construct.
 
-let rec multFromTo (k:int ) (m:int) (n:int) : int  = 
+let rec multSkipFromTo (k:int ) (m:int) (n:int) : int  = 
   if m < n then 
     if m+k < n
-      then m * (multFromTo k (m+k) n)
+      then m * (multSkipFromTo k (m+k) n)
     else 
-      m * (multFromTo k n n)
+      m * (multSkipFromTo k n n)
   else 
     m
 
-//multFromTo 3 1 5
+//multFromTo 1 1 5
 
 
 
