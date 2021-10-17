@@ -396,6 +396,7 @@ let unpackLoops (c: Command list) : Command list =
 //   add it to the simplified part and then continue.
 
 let simplifyFold (newC: Command list) (command: Command) =
+    printfn "%A" newC
     match command, newC with
     | Step n, Step k :: secondItem -> Step (n+k) :: secondItem 
     | Turn n, Turn k :: secondItem -> Turn (((n+k)%4 + 4 ) % 4) :: secondItem
@@ -406,4 +407,4 @@ let simplifyFold (newC: Command list) (command: Command) =
 let simplify (clist: Command list): Command list =
   List.fold simplifyFold [] clist |> List.rev
 
-//printfn "%A" (simplify [Turn(2); Turn(3)])
+printfn "%A" (simplify [Turn(2);Step(2); Turn(3);Turn(3); Step(2)])

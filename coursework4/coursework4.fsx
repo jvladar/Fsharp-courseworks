@@ -194,16 +194,22 @@ let addValue (v : Ecma) (e : Ecma) : Ecma =
 
 let rec countValues ( ecma:Ecma) : int = 
   match ecma with 
-  | Object object -> (object |> List.fold(fun o (k,p) -> (countValues p) + o) 1)
-  | List list -> (list |> List.fold(fun l p -> (countValues p) + l) 1)
+  | Object object -> List.fold(fun total (k,p) -> total + (countValues p)) 1 object
+  | List list -> List.fold(fun total p -> total + (countValues p)) 1 list
   | _ -> 1
-
 
 
 //// Task 4 ////
 
 type Path = Name list
 
+let picovina = [ 
+      "xyz",
+      Object(
+          [ "a", Number 1.0 ;
+            "b", Object([ "b", String "b" ]) ]
+      );
+      "ws", List([ Bool false ]) ]
 
 // Define the function
 // 
@@ -224,8 +230,8 @@ type Path = Name list
 //   {
 //     "abc" : false,
 //     "xs"  : [ { "a" : "a" }, 1.0, true, { "b" : "b" }, false ],
-//     "xyz" : { "a" : 1.0,
-//               "b" : { "b" : "b" } },
+//     [ { "a" : "a" }, 1.0, true, { "b" : "b" }, false ],
+//     "xyz" : { "a" : 1.0, b : { "b" : "b" } },
 //     "ws"  : [ false ]
 //   }
 // 
@@ -254,10 +260,22 @@ type Path = Name list
 // Note that the empty list denotes the path to the root object.
 //let simplify    
 
-let listPaths (ecma : Ecma) : Path list = 
-  let x = [["kok"]]
-  x
+let listPaths (e: Ecma) : Path list =
+    let rec innerlistPaths (e: Ecma) (prefix: Path) : Path list =
+        match e with
+        | Object (object :: rest) ->
+            let newPrefix: Path = prefix @ [ fst(object) ]
+            [ newPrefix ] @ innerlistPaths (snd(object)) newPrefix @ innerlistPaths (Object rest) prefix
+        | List (head :: rest) ->
+            innerlistPaths head prefix @ innerlistPaths (List rest) prefix
+        | _ -> []
 
+    [] :: innerlistPaths e []
+
+
+//printfn "%A" picovina
+
+// listPaths (picovina)  
 
 
 //// Task 5 ////
@@ -272,9 +290,37 @@ let listPaths (ecma : Ecma) : Path list =
 // 
 // The result should not contain any whitespace except when this
 // whitespace was part of a name or a string value.
-let show (ecma : Ecma) : string = 
-  "vyjebanci"
 
+let rec show (ecma: Ecma) =
+    match ecma with
+    | Object o -> objectToJson o
+    | List l -> listToJson l
+    | Bool b -> b.ToString().ToLower()
+    | Number n -> n.ToString()
+    | String t -> "\"" + t + "\""
+    | Null -> "null"
+
+and objectToJson (object: list<Name * Ecma>) =
+    match object with
+    | [] -> "{}"
+    | _ ->
+        "{\""
+        + fst object.Head
+        + "\":"
+        + show (snd (object.Head))
+        + (object.Tail
+           |> List.fold (fun res (name, e) -> res + "," + "\"" + name + "\":" + show e) "")
+        + "}"
+
+and listToJson (list: list<Ecma>) =
+    match list with
+    | [] -> "[]"
+    | _ ->
+        "["
+        + show (list.Head)
+        + (list.Tail
+           |> List.fold (fun res e -> res + "," + show e) "")
+        + "]"
 
 
 
@@ -294,12 +340,7 @@ let show (ecma : Ecma) : string =
 // When the user attempts to delete the root object, delete should throw
 // an exception. Hint: use `failwith` in the appropriate case.
 
-let delete (path : Path list) (ecma:Ecma) : Ecma = 
-  Bool true
-
-
-
-
+let delete (paths: Path list) (ecma : Ecma) : Ecma = mkObject()
 
 //// Task 7 ////
 
@@ -316,5 +357,5 @@ let delete (path : Path list) (ecma:Ecma) : Ecma =
 // 
 // The result list must respect the ordering requirements from Task 4.
 
-let withPath (path : Path list) (ecma : Ecma) : Ecma list =
-  [(Bool true);(String "kokot")]
+let withPath (path : Path list) (ecma : Ecma) : Ecma list = []
+
