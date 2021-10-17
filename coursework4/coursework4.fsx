@@ -173,8 +173,6 @@ let addValue (v : Ecma) (e : Ecma) : Ecma =
   | _ -> e
 
 
-
-
 //// Task 3 ////
 
 // Define the function
@@ -203,13 +201,6 @@ let rec countValues ( ecma:Ecma) : int =
 
 type Path = Name list
 
-let picovina = [ 
-      "xyz",
-      Object(
-          [ "a", Number 1.0 ;
-            "b", Object([ "b", String "b" ]) ]
-      );
-      "ws", List([ Bool false ]) ]
 
 // Define the function
 // 
@@ -321,7 +312,6 @@ and listToJson (list: list<Ecma>) =
         + (list.Tail
            |> List.fold (fun res e -> res + "," + show e) "")
         + "]"
-
 
 
 //// Task 6 ////
