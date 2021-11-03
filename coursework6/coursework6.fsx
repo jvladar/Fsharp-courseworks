@@ -74,18 +74,20 @@ let rec pHoldsForAllSequentialElements (predicate: int->int->bool) (xs: int list
   Make sure your implementation uses explicit tail recursion.
 *)
 
-let createTwoTouplesOfLists (cislo : 'a) (pole: 'a list) =
+let createTwoTouplesOfList (cislo : 'a) (pole: 'a list) =
   let updPole = if (pole.Length % 2 <> 0) then pole @ [cislo] else pole
 
   let rec createTwoTouplesOfLists2 pole pole2 = 
     match pole with
     | x::y::rest -> createTwoTouplesOfLists2 rest ((x,y)::pole2)
-    | _ -> pole2
+    | _ -> List.rev(pole2)
     
-  List.rev (createTwoTouplesOfLists2 updPole [])
+  createTwoTouplesOfLists2 updPole []
   //createTwoTouplesOfLists2 updPole []
 
-// createTwoTouplesOfLists 1 [1;2;3]
+  
+
+//createTwoTouplesOfLists 1 [2]
 
 (*
   Task 3:
