@@ -100,16 +100,28 @@ let createTwoTuplesOfList (cislo : 'a) (pole: 'a list) =
   Test yourself if this implementation appears to be tail recursive.
 *)
 
-let createTwoTuplesOfListFold (cislo : 'a) (pole: 'a list) =
+(*let createTwoTuplesOfListFold (cislo : 'a) (pole: 'a list) =
     let updPole = if (pole.Length % 2 <> 0) then pole @ [cislo] else pole
 
     fst(List.foldBack (fun e (acc,some) -> 
       match some with
       | None -> (acc,Some e)
       | Some s -> ((e,s):: acc, None)
-      )  updPole ([],None))
+      )  updPole ([],None))*)
 
+let createTwoTuplesOfListFold (cislo : 'a) (pole: 'a list) =
+    let updPole = if (pole.Length % 2 <> 0) then pole @ [cislo] else pole
 
+    List.fold (fun acc e -> 
+      match acc with
+      | [] -> [[e]]
+      | head::tail -> 
+        if head.Length > 1 then
+          [e] :: acc
+        else
+          (e::head) :: tail
+      ) [] updPole 
+    |> List.fold (fun acc toupList -> if (List.length toupList = 2) then (toupList.[1], toupList.[0])::acc else acc) [] 
 
 
 // createPairsOfListFold 4 [1;2;3;5;6]   
