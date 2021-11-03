@@ -121,7 +121,7 @@ let createTwoTuplesOfListFold (cislo : 'a) (pole: 'a list) =
         else
           (e::head) :: tail
       ) [] updPole 
-    |> List.fold (fun acc toupList -> if (List.length toupList = 2) then (toupList.[1], toupList.[0])::acc else acc) [] 
+    |> List.fold (fun acc toupList -> if (List.length toupList = 2) then (toupList.[1], toupList.[0])::acc else acc) [] |> List.rev |> List.rev
 
 
 // createPairsOfListFold 4 [1;2;3;5;6]   
