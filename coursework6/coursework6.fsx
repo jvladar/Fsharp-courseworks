@@ -109,7 +109,8 @@ let createTwoTuplesOfListFold (cislo : 'a) (pole: 'a list) =
       | Some s -> ((e,s):: acc, None)
       )  updPole ([],None))
 
-createTwoTuplesOfListFold 9 [1;2;3;4;5;6;7]
+
+
 
 // createPairsOfListFold 4 [1;2;3;5;6]   
     (*List.fold (fun acc e -> 
