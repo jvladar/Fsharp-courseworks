@@ -157,12 +157,14 @@ let medianAndAverageInTree (a : 'a Tr) : int * float =
     | Br(left,right) -> inner left (fun vl -> inner right (fun vr -> acc(vr@vl)))
   let values = inner a (id)
   
-  
+
   let pele = List.sort values
   let mid = (values.Length - 1) / 2
   let avg = List.sum values
   pele.Item(mid), float(avg)/float(values.Length)
   
+
+
 
 //medianAndAverageInTree (Br(Br (Lf 8, Lf 5),Lf 9));;
 
