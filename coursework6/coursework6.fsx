@@ -110,19 +110,13 @@ let createTwoTuplesOfList (cislo : 'a) (pole: 'a list) =
       )  updPole ([],None))*)
 
 let createTwoTuplesOfListFold (cislo : 'a) (pole: 'a list) =
-    let updPole = if (pole.Length % 2 <> 0) then pole @ [cislo] else pole
+  let updPole = if (pole.Length % 2 <> 0) then pole @ [cislo] else pole
 
-    List.fold (fun acc e -> 
-      match acc with
-      | [] -> [[e]]
-      | head::tail -> 
-        if head.Length > 1 then
-          [e] :: acc
-        else
-          (e::head) :: tail
-      ) [] updPole 
-    |> List.fold (fun acc toupList -> if (List.length toupList = 2) then (toupList.[1], toupList.[0])::acc else acc) [] |> List.rev |> List.rev
-
+  let rec createTwoTuplesOfLists2 pole pole2 = 
+    match pole with
+    | x::y::rest -> createTwoTuplesOfLists2 rest ((x,y)::pole2)
+    | _ -> List.rev(pole2) 
+  createTwoTuplesOfLists2 updPole []
 
 // createPairsOfListFold 4 [1;2;3;5;6]   
     (*List.fold (fun acc e -> 
