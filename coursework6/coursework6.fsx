@@ -58,7 +58,7 @@ let rec pHoldsForAllSequentialElements (predicate: int->int->bool) (xs: int list
         else pHoldsForAllSequentialElements predicate (y::rest)
         | _ -> false
 
-// pHoldsForAllSequentialElements (fun x y -> y > x) [2;4;3] 
+pHoldsForAllSequentialElements (fun x y -> y > x) [2;4;3] 
 
 
 
@@ -85,7 +85,7 @@ let createTwoTouplesOfLists (cislo : 'a) (pole: 'a list) =
   List.rev (createTwoTouplesOfLists2 updPole [])
   //createTwoTouplesOfLists2 updPole []
 
-//createTwoTouplesOfLists 1 [1;2;3]
+createTwoTouplesOfLists 1 [1;2;3]
 
 (*
   Task 3:
