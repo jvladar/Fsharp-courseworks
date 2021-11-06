@@ -150,7 +150,39 @@ type 'a Tr =
   | Lf   of 'a
   | Br of 'a Tr * 'a Tr
 
-let medianAndAverageInTree (a : 'a Tr) : int * float =
+let rec count b cont = 
+  match b with
+  | Lf(n) -> cont(1)
+  | Br (at, bt) -> count at (fun asum ->count bt (fun bsum -> cont (asum + bsum)))
+
+let rec countt bb contt = 
+  match bb with
+  | Lf(n) -> contt(n)
+  | Br (at, bt) -> countt at (fun asum ->countt bt (fun bsum -> contt (asum + bsum)))
+
+let rec getLastLeaf branch =
+  match branch with
+  | Lf (a) -> a
+  | Br (_, bt) -> getLastLeaf bt
+
+let getLeafNo branch cnt =
+  let rec getLeafNoRec branch (cnt, ans) =
+    if cnt = 0 then (cnt, ans)
+    else
+    match branch with
+    | Lf (a) -> (cnt-1, a)
+    | Br (at, bt) -> getLeafNoRec bt (getLeafNoRec at (cnt, ans)) 
+  snd (getLeafNoRec branch (cnt, 0))
+
+let medianAndAverageInTree (tree: int Tr): int * float =
+  let rec inner (tr: int Tr) f =
+    match tr with
+    | Lf l -> f (1, l, [l])
+    | Br (tl, tr) -> inner tl (fun (countL, valL, listLeft) -> inner tr (fun (countR, valR, listRight) -> f(countL + countR, valL + valR, listLeft @ listRight)))
+  let (count, sum, list) =  inner tree id 
+  (list.[(count - 1) / 2], float(sum) / float(count))
+
+(*let medianAndAverageInTree (a : 'a Tr) : int * float =
   let rec inner (a : 'a Tr) (acc) : int list =
     match a with
     | Lf n           -> acc([n])
@@ -161,7 +193,7 @@ let medianAndAverageInTree (a : 'a Tr) : int * float =
   let pele = List.sort values
   let mid = (values.Length - 1) / 2
   let avg = List.sum values
-  pele.Item(mid), float(avg)/float(values.Length)
+  pele.Item(mid), float(avg)/float(values.Length)*)
   
 
 
