@@ -500,7 +500,13 @@ let rec selectInner (s: Selector) (e: Ecma) (p: Path) : (Path * Ecma) list =
                       | _ -> selectInner s' e' p'
                 ) []
 
-    | OneOrMore _ -> [] 
+    | OneOrMore s ->
+        let x = selectInner s e p
+        x
+        @ match e with
+          | Object _ -> selectInner (Sequence(s, OneOrMore s)) e p
+          | List _ -> selectInner (Sequence(s, OneOrMore s)) e p
+          | _ -> []
 
 (*let policko = Object([ 
             "a", Number 1.0;
