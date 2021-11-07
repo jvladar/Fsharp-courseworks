@@ -543,7 +543,7 @@ let select (s:Selector) (e:Ecma) : (Path * Ecma) list =
 // for the values selected by s, the string values and numeric values
 // of that value have been updated according to the functions su and nu.
 
-let update (s : string, sp : string) (f : float, fe : float) (sel : Selector) (e: Ecma) : Ecma = 
+let update (s : string -> string) (f : float -> float) (sel : Selector) (e: Ecma) : Ecma = 
   e
 
 
@@ -619,5 +619,5 @@ let truncate (i : int) (s: Selector) (e: Ecma)  : Ecma =
 // This function should not be defined recursively; define it in
 // terms of update.
 
-let mapEcma (s : string, sp : string) (f : float, fe : float) (e : Ecma) : Ecma =
+let mapEcma (s : string -> string) (f : float -> float) (e : Ecma) : Ecma =
   e
