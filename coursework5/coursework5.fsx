@@ -472,8 +472,6 @@ values.]
 
 
 let rec selectInner (s: Selector) (e: Ecma) (p: Path) : (Path * Ecma) list =
-    printfn "objekt: %A a selektor: %A" e s
-
     match s with
     | Match expr -> if (eval expr e) then [ p, e ] else []
     | Sequence (s, s') ->
@@ -491,8 +489,7 @@ let rec selectInner (s: Selector) (e: Ecma) (p: Path) : (Path * Ecma) list =
                           o
                           |> List.fold (fun acc (k2, v2) -> acc @ (selectInner s' v2 (p' @ [ Key(k2) ]))) []
                       | List eArr ->
-                          fst (
-                              eArr
+                          fst (eArr
                               |> List.fold
                                   (fun (arrInner, i) el -> (arrInner @ (selectInner s' el (p' @ [ Index(i) ])), i + 1))
                                   ([], 0)
