@@ -344,7 +344,6 @@ with the representation for null.)
 *)
 
 //let eval (bexpr : BExpr) (ecma : Ecma) : bool =
-let contains (list: 'b list) (item: 'b) : bool = list |> List.contains item
 
 let rec eval (expression: BExpr) (e: Ecma) : bool =
     match expression with
@@ -487,12 +486,19 @@ let rec selectInner (s: Selector) (e: Ecma) (p: Path) : (Path * Ecma) list =
             |> List.fold
                 (fun resultList (p', e') ->
                     resultList
-                    @ match e' with // todo for each
+                    @ match e' with 
                       | Object o ->
                           o
                           |> List.fold (fun acc (k2, v2) -> acc @ (selectInner s' v2 (p' @ [ Key(k2) ]))) []
-                  ) []
-
+                      | List eArr ->
+                          fst (
+                              eArr
+                              |> List.fold
+                                  (fun (arrInner, i) el -> (arrInner @ (selectInner s' el (p' @ [ Index(i) ])), i + 1))
+                                  ([], 0)
+                          )
+                      | _ -> selectInner s' e' p'
+                ) []
 
     | OneOrMore _ -> [] 
 
@@ -537,7 +543,8 @@ let select (s:Selector) (e:Ecma) : (Path * Ecma) list =
 // for the values selected by s, the string values and numeric values
 // of that value have been updated according to the functions su and nu.
 
-
+let update (s : string) (f : float) (sel : Selector) (e: Ecma) : Ecma = 
+  e
 
 
 
@@ -555,7 +562,8 @@ let select (s:Selector) (e:Ecma) : (Path * Ecma) list =
 // The result should be `None` when after the delete operation there
 // is no `Ecma` value left. Otherwise use `Some`.
 
-
+let delete (s : Selector) (e: Ecma) : Ecma option = 
+  None
 
 
 
@@ -589,9 +597,11 @@ let select (s:Selector) (e:Ecma) : (Path * Ecma) list =
 // terms of update.
 
 
+let toZero (f : float) (s: Selector) (e: Ecma)  : Ecma = 
+  e
 
-
-
+let truncate (i : int) (s: Selector) (e: Ecma)  : Ecma = 
+  e
 
 
 
@@ -609,3 +619,5 @@ let select (s:Selector) (e:Ecma) : (Path * Ecma) list =
 // This function should not be defined recursively; define it in
 // terms of update.
 
+let mapEcma (s : string) (f : float) (e : Ecma) : Ecma =
+  e
