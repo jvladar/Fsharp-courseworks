@@ -98,7 +98,7 @@ open FileSystem
    once.
 *)
 
-let pathWf (path: FileSystem.Path): bool = not (path |> List.length = 0) && not (path |> List.isEmpty)
+let pathWf (path: FileSystem.Path): bool = not (path |> List.contains("")) && not (path |> List.length < 1)
 
 let rec fsTreeWf (fs: FileSystem.FsTree) : bool =
    if fs.name="" then false
