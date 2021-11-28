@@ -45,6 +45,7 @@
 
 open FsCheck
 
+
 open FileSystem
 
 
@@ -97,6 +98,7 @@ open FileSystem
    Define these predicates so that they traverse their input only
    once.
 *)
+
 
 let pathWf (path: FileSystem.Path): bool = not (path |> List.contains("")) && not (path |> List.length < 1)
 
@@ -203,6 +205,9 @@ let wfTrees : Gen<FsTree> =
    You may assume that this property is only used with "well-formed"
    generators (meaning that p and fs are well-formed).
 *)
+
+
+
 let deleteIsWellFormed (p:Path) (fs:FsTree) : bool =
    fsTreeWf (delete p fs)
 
@@ -296,12 +301,18 @@ let showShowsEverything (fs:FsTree) : bool =
    You may assume that this property is only used with "well-formed"
    generators (meaning that fs, p1 and p2 are well-formed).
 *)
+
+
+
+
 let rec NotPrefix (p1:Path) (p2:Path) : bool =
    match p1, p2 with
    | [],[] -> false
    | x::xs, y::ys -> if x = y then NotPrefix xs ys else true
    | _ , [] -> true
    | _ -> false
+
+
 
 let createAndDelete (fs:FsTree) (p1:Path) (p2:Path) : Property =
    NotPrefix p1 p2 ==> lazy (show (delete p1 (create p2 (create p1 fs))) |> List.contains p2)
