@@ -101,7 +101,7 @@ open FileSystem
 let pathWf (path: FileSystem.Path): bool = not (path |> List.forall(fun p -> p.Length = 0))
 
 let rec fsTreeWf (fs: FileSystem.FsTree) : bool =
-   if fs.name.Length<1 then false
+   if fs.name="" then false
    else match fs.children with
          | [] -> true
          | children -> if (children |> List.map (fun child -> child.name) |> List.distinct).Length <> children.Length
@@ -166,6 +166,7 @@ x |> Gen.sample 3 1
 
 let wfPaths : Gen<Path> =
    Arb.generate<string list> |> Gen.filter (fun x -> pathWf x)
+
 
 
 // let x = wfPaths
