@@ -298,7 +298,6 @@ let showShowsEverything (fs:FsTree) : bool =
 *)
 let rec isNotPrefix (p1:Path) (p2:Path) : bool =
    match p1, p2 with
-   | [], [] -> false
    | x::xs, y::ys -> if x = y then isNotPrefix xs ys else true
    | _ , [] -> true
    | _ -> false
