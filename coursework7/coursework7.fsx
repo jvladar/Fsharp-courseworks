@@ -296,14 +296,15 @@ let showShowsEverything (fs:FsTree) : bool =
    You may assume that this property is only used with "well-formed"
    generators (meaning that fs, p1 and p2 are well-formed).
 *)
-let rec isNotPrefix (p1:Path) (p2:Path) : bool =
+let rec NotPrefix (p1:Path) (p2:Path) : bool =
    match p1, p2 with
-   | x::xs, y::ys -> if x = y then isNotPrefix xs ys else true
+   | [],[] -> false
+   | x::xs, y::ys -> if x = y then NotPrefix xs ys else true
    | _ , [] -> true
    | _ -> false
 
 let createAndDelete (fs:FsTree) (p1:Path) (p2:Path) : Property =
-   isNotPrefix p1 p2 ==> lazy (show (delete p1 (create p2 (create p1 fs))) |> List.contains p2)
+   NotPrefix p1 p2 ==> lazy (show (delete p1 (create p2 (create p1 fs))) |> List.contains p2)
 
 
 
