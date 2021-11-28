@@ -128,6 +128,8 @@ let rec fsTreeWf (fs: FileSystem.FsTree) : bool =
    What percentage of the generated test inputs trivially satisfy this
    property?
 *)
+
+
 let createIsWf (p:Path) (fs:FsTree) : Property =
    (fsTreeWf fs && pathWf p) ==> lazy fsTreeWf (create p fs)
 
