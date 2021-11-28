@@ -98,7 +98,7 @@ open FileSystem
    once.
 *)
 
-let pathWf (path: FileSystem.Path): bool = not (path |> List.contains("")) && not (path |> List.isEmpty)
+let pathWf (path: FileSystem.Path): bool = not (path |> List.length = 0) && not (path |> List.isEmpty)
 
 let rec fsTreeWf (fs: FileSystem.FsTree) : bool =
    if fs.name="" then false
@@ -298,6 +298,7 @@ let showShowsEverything (fs:FsTree) : bool =
 *)
 let rec isNotPrefix (p1:Path) (p2:Path) : bool =
    match p1, p2 with
+   | [], [] -> false
    | x::xs, y::ys -> if x = y then isNotPrefix xs ys else true
    | _ , [] -> true
    | _ -> false
