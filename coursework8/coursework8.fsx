@@ -63,7 +63,6 @@
   list). Do not use sequence expressions. Define this using
   Seq.unfold.
 
-
   Define the function
 
     evens : int -> int list
@@ -83,7 +82,11 @@ let next (arr:int list) : int list =
   else (arr |> List.windowed 2 |> List.fold (fun acc el -> (el.[0] + el.[1])::acc) [1] |> List.rev) @ [1]
 
 // next([3;2;3])
+let triangle int list seq =
+  [1] |> Seq.unfold (fun x -> Some (x,next(x)))
 
+let evens (n :int) : int list =
+  []
 
 (*
   Task 2
@@ -239,9 +242,11 @@ let lcs (p : ((int * int) -> unit)) (a1 :'a []) (a2: 'a []) : Lazy<int>[,] =
 
 
 
-// let xs = [| 1; 2; 3; 4 |]
-// let ys = [| 5; 1; 6; 4 |]
-// lcs (fun (x,y) -> printfn "%A" x) xs ys
+let xs = [| 1; 2; 3; 4 |]
+let ys = [| 5; 1; 6; 4 |]
+lcs (fun (x,y) -> printfn "%A" x) xs ys
+
+
 // // Array2D.create 5 5 (lazy 0)
 // xs |> Array.mapi(fun i item -> printfn "%A %A" i item)
 // let ys = ["d";"r";"t"]
