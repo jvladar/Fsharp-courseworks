@@ -82,7 +82,7 @@ let next (arr : int list) : int list =
   else (arr |> List.windowed 2 |> List.fold (fun acc el -> (el.[0] + el.[1])::acc) [1] |> List.rev) @ [1]
 
 // next([3;2;3])
-let triangle int list seq =
+let triangle : int list seq =
   [1] |> Seq.unfold (fun x -> Some (x,next(x)))
 
 let evens (n :int) : int list =
