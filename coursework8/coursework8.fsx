@@ -221,7 +221,7 @@ let lcs (p : ((int * int) -> unit)) (a1 :'a []) (a2: 'a []) : Lazy<int>[,] =
   table.[0, *] <- [|for k in 0..(a2.Length) do lazy ( p (0,k); 0)|]
 
   let a = [0..(a1.Length-1)] |> List.map (fun x ->  (a1.[x], x))
-  let b = [0..(a2.Length-1)] |> List.map (fun x ->  (a2.[x], x))
+  let b = [0..(a2.Length-1)] |> List.map (fun x ->  (a2.[x], x)) 
   List.fold(fun _ (v,x)-> 
     List.fold (fun _ (v1,y) ->
       match compare v v1 with
