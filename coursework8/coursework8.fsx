@@ -82,7 +82,7 @@ let next (arr:int list) : int list =
   if arr |> List.isEmpty then [1]
   else (arr |> List.windowed 2 |> List.fold (fun acc el -> (el.[0] + el.[1])::acc) [1] |> List.rev) @ [1]
 
-next([3;2;3])
+// next([3;2;3])
 
 
 (*
