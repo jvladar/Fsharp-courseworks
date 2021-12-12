@@ -78,6 +78,9 @@
 
 *)
 
+let next (arr:int list) : int list =
+  if arr |> List.isEmpty then [1]
+  else (arr |> List.windowed 2 |> List.fold (fun acc el -> (el.[0] + el.[1])::acc) [1] |> List.rev) @ [1]
 
 
 
@@ -228,8 +231,8 @@ let lcs (p : ((int * int) -> unit)) (a1 :'a []) (a2: 'a []) : Lazy<int>[,] =
           p (x+1, y+1);
           (max table.[x+1, y].Value table.[x, y+1].Value)
         )
-    ) () b
-  ) () a
+    ) () a
+  ) () b
   table
 
 // let ys = ["r";"z";"t"]
