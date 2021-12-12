@@ -217,8 +217,8 @@ let generate (input: 'a list) (f: 'a list -> 'a): 'a seq =
 
 let lcs (p : ((int * int) -> unit)) (a1 :'a []) (a2: 'a []) : Lazy<int>[,] =
   let table = Array2D.create<Lazy<int>> (a1.Length+1) (a2.Length+1) (lazy 0)
-  table.[*, 0] <- [|for k in 1..(a1.Length+1) do lazy ( p (k-1, 0); 0)|]
-  table.[0, *] <- [|for k in 1..(a2.Length+1) do lazy ( p (0,k-1); 0)|]
+  table.[*, 0] <- [|for k in 0..(a1.Length) do lazy ( p (k,0); 0)|]
+  table.[0, *] <- [|for k in 0..(a2.Length) do lazy ( p (0,k); 0)|]
 
   let a = [0..(a1.Length-1)] |> List.map (fun x ->  (a1.[x], x))
   let b = [0..(a2.Length-1)] |> List.map (fun x ->  (a2.[x], x))
