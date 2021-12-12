@@ -82,8 +82,7 @@ let next (arr:int list) : int list =
   if arr |> List.isEmpty then [1]
   else (arr |> List.windowed 2 |> List.fold (fun acc el -> (el.[0] + el.[1])::acc) [1] |> List.rev) @ [1]
 
-
-
+next([3;2;3])
 
 
 (*
@@ -217,12 +216,12 @@ let generate (input: 'a list) (f: 'a list -> 'a): 'a seq =
 // nItems (2) (nItems (3) 0 |> Seq.toArray)
 
 let lcs (p : ((int * int) -> unit)) (a1 :'a []) (a2: 'a []) : Lazy<int>[,] =
-  let table = Array2D.zeroCreate<Lazy<int>> (a1.Length+1) (a2.Length+1)
-  table.[*, 0] <- [|for _ in 1..(a1.Length+1) do (lazy 0)|]
-  table.[0, *] <- [|for _ in 1..(a2.Length+1) do (lazy 0)|]
+  let table = Array2D.create<Lazy<int>> (a1.Length+1) (a2.Length+1) (lazy 0)
+  table.[*, 0] <- [|for _ in 1..(a1.Length+1) do lazy ( p (a1.Length, 0); 0)|]
+  table.[0, *] <- [|for _ in 1..(a2.Length+1) do lazy ( p (0,a2.Length); 0)|]
 
-  let a = [0..(a1.Length-1)] |> List.map (fun x -> a1.[x], x)
-  let b = [0..(a2.Length-1)] |> List.map (fun x -> a2.[x], x)
+  let a = [0..(a1.Length-1)] |> List.map (fun x -> p(a1.[x], x), (a1.[x], x))
+  let b = [0..(a2.Length-1)] |> List.map (fun x -> p(a2.[x], x), (a2.[x], x))
   List.fold(fun _ (v,x)-> 
     List.fold (fun _ (v1,y) ->
       match compare v v1 with
