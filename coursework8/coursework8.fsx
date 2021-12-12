@@ -220,8 +220,8 @@ let lcs (p : ((int * int) -> unit)) (a1 :'a []) (a2: 'a []) : Lazy<int>[,] =
   table.[*, 0] <- [|for _ in 1..(a1.Length+1) do lazy ( p (a1.Length, 0); 0)|]
   table.[0, *] <- [|for _ in 1..(a2.Length+1) do lazy ( p (0,a2.Length); 0)|]
 
-  let a = [0..(a1.Length-1)] |> List.map (fun x -> p(a1.[x], x), (a1.[x], x))
-  let b = [0..(a2.Length-1)] |> List.map (fun x -> p(a2.[x], x), (a2.[x], x))
+  let a = [0..(a1.Length-1)] |> List.map (fun x ->  (a1.[x], x))
+  let b = [0..(a2.Length-1)] |> List.map (fun x ->  (a2.[x], x))
   List.fold(fun _ (v,x)-> 
     List.fold (fun _ (v1,y) ->
       match compare v v1 with
