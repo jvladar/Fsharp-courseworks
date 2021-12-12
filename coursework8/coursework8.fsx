@@ -86,7 +86,15 @@ let triangle : int list seq =
   [1] |> Seq.unfold (fun x -> Some (x,next(x)))
 
 let evens (n :int) : int list =
-  [1]
+  triangle |> Seq.filter (fun x -> x.Length % 2 = 0)
+    |> Seq.take 5
+    |> Seq.map Seq.sum
+    |> Seq.toList
+
+
+
+
+
 
 (*
   Task 2
