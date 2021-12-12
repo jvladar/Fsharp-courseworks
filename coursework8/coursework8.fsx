@@ -220,9 +220,9 @@ let lcs (p : ((int * int) -> unit)) (a1 :'a []) (a2: 'a []) : Lazy<int>[,] =
   let table = Array2D.zeroCreate<Lazy<int>> (a1.Length+1) (a2.Length+1)
   table.[*, 0] <- [|for _ in 1..(a1.Length+1) do (lazy 0)|]
   table.[0, *] <- [|for _ in 1..(a2.Length+1) do (lazy 0)|]
-  
-  let a = [0..(a1.Length-1)] |> List.map (fun x -> a1.[x], x+1)
-  let b = [0..(a2.Length-1)] |> List.map (fun x -> a2.[x], x+1)
+
+  let a = [0..(a1.Length-1)] |> List.map (fun x -> a1.[x], x)
+  let b = [0..(a2.Length-1)] |> List.map (fun x -> a2.[x], x)
   List.fold(fun _ (v,x)-> 
     List.fold (fun _ (v1,y) ->
       match compare v v1 with
@@ -238,14 +238,18 @@ let lcs (p : ((int * int) -> unit)) (a1 :'a []) (a2: 'a []) : Lazy<int>[,] =
   ) () a
   table
 
-// let ys = ["r";"z";"t"]
-// let ys = ["d";"r";"t"]
 
-// Array2D.create 5 5 (lazy 0)
 
+// let xs = [| 1; 2; 3; 4 |]
+// let ys = [| 5; 1; 6; 4 |]
+// lcs (fun (x,y) -> printfn "%A" x) xs ys
+// // Array2D.create 5 5 (lazy 0)
+// xs |> Array.mapi(fun i item -> printfn "%A %A" i item)
 // let ys = ["d";"r";"t"]
 // let ys = ["d";"r";"t"]
 // let a = [0..(ys.Length-1)] |> List.map (fun x -> ys.[x], x+1)
+
+
 // List.fold(fun _ (x,y)-> 
 //       match compare x x with
 //       | 0 -> 1
