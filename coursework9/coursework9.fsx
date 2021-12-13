@@ -105,25 +105,30 @@ let mandelbrot n c = failwith "not implemented"
 
    so that given
 
-   m : int
-   n : int
+   m : int = 3
+   n : int = 15
 
    'divide m n' evaluates to a sequence of ranges
 
    (s_1, e_1), ..., (s_m, e_m)
+s1,e1 ... s3,e3
 
    so that:
    * s_1 = 0 and e_m = n - 1
+s1 = 0, e3 = 14                                                         (0,s1)(s1 + 1,s2)(s2 + 1,14)
 
    * s_{i + 1} = e_i + 1
-
+s2 = e1 + 1 ; s3 = e2 + 1
 
    That is to say that:   
-   * for every x : int such that 0 <= x < n there exists an i such
+   * for every (x : int) such that 0 <= x < n there exists an i such
      that s_i <= x <= e_i
+0 <= 3 < 15
+s1 <= 3 <= e1
 
    * the sequence of (s_i, e_i) covers 0, ..., n - 1 without overlap,
      i.e., if s_i <= x <= e_i and s_j <= x <= e_j, then i = j.
+if s1 <= x <= e1 and s1 <= x <= e1, then i = j
 
    You may think of n as the number of things we have and m as the
    number of buckets among which we distribute them.
@@ -132,20 +137,15 @@ let mandelbrot n c = failwith "not implemented"
 *)
 
 let divide m n =
-   let mm = min m n
-   let s = n / mm
-   let r = n % mm
+   let minim = min m n  // 3
+   let s = n / minim   // 4
+   let rest = n % minim   // 0
    seq {
-      for i in 0..r-1 do
-         yield i*(s+1), (i+1)*(s+1)-1
-      for i in r..mm-1 do
-         yield r+i*s, r+(i+1)*s-1
+      for i in 0..rest-1 do
+         yield i*(s+1), (i+1)*(s+1)-1 // 0*(4+1), (1)*(4+1)-1 = 0,4
+      for i in rest..minim-1 do  
+         yield rest+i*s, rest+(i+1)*s-1 // 1*4, 0+2*4-1 = 4,7
    }
-
-divide 3 14
-
-
-
 
 
 (*
@@ -188,7 +188,6 @@ let mandelbrotAsync m n start finish cs = failwith "not implemented"
 
 
 
-
 (*
   Question 4
 
@@ -221,8 +220,25 @@ let mandelbrotAsync m n start finish cs = failwith "not implemented"
 
 *)
 
-let display n bs = failwith "not implemented"
+let display (n : int) (bs : bool []) = 
+    let z = Array.fold(fun acc y -> 
+            match y with
+            | true -> 
+                let x = ["*"] :: acc
+                let v = x |> List.filter (fun x -> x = ["."] || x = ["*"])
+                if (v.Length % n = 0) then ["\\n"] :: x else x 
+            | false -> 
+                let y = ["."] :: acc
+                let v = y |> List.filter (fun x -> x = ["."] || x = ["*"])
+                if (v.Length % n = 0) then ["\\n"] :: y else y ) [] bs 
+    if (z.Length%2=0) then 
+        let x = z.Head :: z 
+        x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
+    else z |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
 
+// let n  = 2 
+// let bs = [| true; false; false; false; true; true; false |]
+// display n bs
 
 
 
