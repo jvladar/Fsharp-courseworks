@@ -226,11 +226,11 @@ let display (n : int) (bs : bool []) =
             | true -> 
                 let x = ["*"] :: acc
                 let v = x |> List.filter (fun x -> x = ["."] || x = ["*"])
-                if (v.Length % n = 0) then ["\\n"] :: x else x 
+                if (v.Length % n = 0) then ["\n"] :: x else x 
             | false -> 
                 let y = ["."] :: acc
                 let v = y |> List.filter (fun x -> x = ["."] || x = ["*"])
-                if (v.Length % n = 0) then ["\\n"] :: y else y ) [] bs 
+                if (v.Length % n = 0) then ["\n"] :: y else y ) [] bs 
     if (z.Length%2=0) then 
         let x = z.Head :: z 
         x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
