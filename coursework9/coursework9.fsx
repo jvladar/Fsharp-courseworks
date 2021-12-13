@@ -220,7 +220,7 @@ let mandelbrotAsync m n start finish cs = failwith "not implemented"
 
 *)
 
-let display (n : int) (bs : bool []) = 
+let display (n : int) (bs : bool []) : string = 
     let z = Array.fold(fun acc y -> 
             match y with
             | true -> 
