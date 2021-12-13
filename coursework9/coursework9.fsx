@@ -219,6 +219,9 @@ let mandelbrotAsync m n start finish cs = failwith "not implemented"
   (Note the handling of missing values in the example.)
 
 *)
+let rec addToList (n : int) (k : string list) (h : string list list) =
+    let collectList = List.collect (fun x -> [for i in 1..n -> x]) k
+    collectList :: h
 
 let display (n : int) (bs : bool []) : string = 
     let z = Array.fold(fun acc y -> 
@@ -233,14 +236,14 @@ let display (n : int) (bs : bool []) : string =
                 if (v.Length % n = 0) then ["\n"] :: y else y ) [] bs
 
     let koko = z |> List.filter (fun x -> x = ["."] || x = ["*"])
-    if  (koko.Length % 2 <> 0) then 
-        let x = z.Head :: z 
+    if  (koko.Length % n <> 0) then 
+        let x = addToList (n - (koko.Length % n)) z.Head z
         x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
     else z |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
 
-// let n  = 20 
-// let bs = [| true; false; false; false; true; true; false |]
-// display n bs
+let n  = 5 
+let bs = [| true; false;|]
+display n bs
 
 
 
