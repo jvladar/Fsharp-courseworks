@@ -230,17 +230,18 @@ let display (n : int) (bs : bool []) : string =
             | false -> 
                 let y = ["."] :: acc
                 let v = y |> List.filter (fun x -> x = ["."] || x = ["*"])
-                if (v.Length % n = 0) then ["\n"] :: y else y ) [] bs 
-    if (z.Length%2<>0) then 
+                if (v.Length % n = 0) then ["\n"] :: y else y ) [] bs
+
+    let koko = z |> List.filter (fun x -> x = ["."] || x = ["*"])
+    if  (koko.Length % 2 <> 0) then 
         let x = z.Head :: z 
         x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
     else z |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
 
-// let n  = 2 
+// let n  = 20 
 // let bs = [| true; false; false; false; true; true; false |]
 // display n bs
 
-// 5%0
 
 
 
