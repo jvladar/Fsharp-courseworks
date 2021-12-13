@@ -222,7 +222,7 @@ let mandelbrotAsync m n start finish cs = failwith "not implemented"
 
 let display (n : int) (bs : bool []) : string = 
     let z = Array.fold(fun acc y -> 
-            match y with
+        match y with
             | true -> 
                 let x = ["*"] :: acc
                 let v = x |> List.filter (fun x -> x = ["."] || x = ["*"])
@@ -231,7 +231,7 @@ let display (n : int) (bs : bool []) : string =
                 let y = ["."] :: acc
                 let v = y |> List.filter (fun x -> x = ["."] || x = ["*"])
                 if (v.Length % n = 0) then ["\n"] :: y else y ) [] bs 
-    if (z.Length%2=0) then 
+    if (z.Length%2<>0) then 
         let x = z.Head :: z 
         x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
     else z |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
@@ -240,6 +240,7 @@ let display (n : int) (bs : bool []) : string =
 // let bs = [| true; false; false; false; true; true; false |]
 // display n bs
 
+// 5%0
 
 
 
