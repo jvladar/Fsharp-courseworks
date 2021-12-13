@@ -42,7 +42,6 @@
 
 
 // Our representation of complex numbers.
-type Complex = double * double
 
 
 
@@ -91,8 +90,30 @@ type Complex = double * double
    - What is the absolute value of a complex number?
 
 *)
+type Complex = double * double
 
-let mandelbrot n c = failwith "not implemented"
+let add (c1:Complex) (c2:Complex) : Complex =
+   fst(c1) + fst(c2), (snd(c1) + snd(c2))
+
+let multiply (c1:Complex) (c2:Complex) : Complex =
+   let r1 = fst(c1)
+   let r2 = fst(c2)
+   let i1 = snd(c1)
+   let i2 = snd(c2)
+   r1 * r2 - i1 * i2, r1 * i2 + r2 * i1
+   
+let calcabs (r, i) = sqrt (r*r + i*i)
+
+let mandelbrot n c =
+
+   let rec eval i z =
+      if calcabs z > 2.0 then false
+      else if i = 0 then true
+      else eval (i-1) (add c (multiply z z))
+   eval n (0.0, 0.0)
+
+mandelbrot 2 (-1.0,0.0)
+
 
 
 
@@ -241,7 +262,7 @@ let display (n : int) (bs : bool []) : string =
         x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
     else z |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
 
-let n  = 5 
+let n  = 1 
 let bs = [| true; false;|]
 display n bs
 
