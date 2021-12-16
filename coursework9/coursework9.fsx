@@ -248,24 +248,24 @@ let display (n : int) (bs : bool []) : string =
     let z = Array.fold(fun acc y -> 
         match y with
             | true -> 
-                let x = ["*"] :: acc
-                let v = x |> List.filter (fun x -> x = ["."] || x = ["*"])
-                if (v.Length % n = 0) then ["\n"] :: x else x 
+                let v = acc |> List.filter (fun x -> x = ["."] || x = ["*"])
+                if (v.Length % n = 0 && v.Length > 0) then ["*"]::["\n"] :: acc else ["*"] :: acc 
             | false -> 
-                let y = ["."] :: acc
-                let v = y |> List.filter (fun x -> x = ["."] || x = ["*"])
-                if (v.Length % n = 0) then ["\n"] :: y else y ) [] bs
+                let v = acc |> List.filter (fun x -> x = ["."] || x = ["*"])
+                if (v.Length % n = 0 && v.Length > 0) then ["."]::["\n"] :: acc else ["."] :: acc 
+                ) [] bs
 
-    let koko = z |> List.filter (fun x -> x = ["."] || x = ["*"])
+    let koko = z |> List.filter (fun x -> x = ["."] || x = ["*"]) 
     if  (koko.Length % n <> 0) then 
         let x = addToList (n - (koko.Length % n)) ["."] z
         x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
     else z |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
 
-let n  = 1 
-let bs = [| true; false;|]
+let n  = 3
+let bs = [| true; false; true; false; true; false; true; false; true|]
 display n bs
 
+1%3
 
 
 
