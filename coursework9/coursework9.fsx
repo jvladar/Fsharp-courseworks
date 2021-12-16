@@ -258,7 +258,7 @@ let display (n : int) (bs : bool []) : string =
 
     let koko = z |> List.filter (fun x -> x = ["."] || x = ["*"])
     if  (koko.Length % n <> 0) then 
-        let x = addToList (n - (koko.Length % n)) z.Head z
+        let x = addToList (n - (koko.Length % n)) ["."] z
         x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
     else z |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
 
