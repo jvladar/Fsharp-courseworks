@@ -112,7 +112,7 @@ let mandelbrot n c =
       else eval (i-1) (add c (multiply z z))
    eval n (0.0, 0.0)
 
-mandelbrot 2 (-1.0,0.0)
+// mandelbrot 2 (-1.0,0.0)
 
 
 
@@ -159,13 +159,13 @@ if s1 <= x <= e1 and s1 <= x <= e1, then i = j
 
 let divide m n =
    let minim = min m n  // 3
-   let s = n / minim   // 4
+   let div = n / minim   // 4
    let rest = n % minim   // 0
    seq {
       for i in 0..rest-1 do
-         yield i*(s+1), (i+1)*(s+1)-1 // 0*(4+1), (1)*(4+1)-1 = 0,4
+         yield i*(div+1), (i+1)*(div+1)-1 // 0*(4+1), (1)*(4+1)-1 = 0,4
       for i in rest..minim-1 do  
-         yield rest+i*s, rest+(i+1)*s-1 // 1*4, 0+2*4-1 = 4,7
+         yield rest+i*div, rest+(i+1)*div-1 // 1*4, 0+2*4-1 = 4,7
    }
 
 
@@ -240,6 +240,7 @@ let mandelbrotAsync m n start finish cs = failwith "not implemented"
   (Note the handling of missing values in the example.)
 
 *)
+
 let rec addToList (n : int) (k : string list) (h : string list list) =
     let collectList = List.collect (fun x -> [for i in 1..n -> x]) k
     collectList :: h
@@ -248,16 +249,16 @@ let display (n : int) (bs : bool []) : string =
     let z = Array.fold(fun acc y -> 
         match y with
             | true -> 
-                let v = acc |> List.filter (fun x -> x = ["."] || x = ["*"])
-                if (v.Length % n = 0 && v.Length > 0) then ["*"]::["\n"] :: acc else ["*"] :: acc 
+               let accLength = acc |> List.filter (fun x -> x = ["."] || x = ["*"]) |> List.length
+               if (accLength > 0 && (accLength % n = 0) ) then ["*"]::["\n"] :: acc else ["*"] :: acc 
             | false -> 
-                let v = acc |> List.filter (fun x -> x = ["."] || x = ["*"])
-                if (v.Length % n = 0 && v.Length > 0) then ["."]::["\n"] :: acc else ["."] :: acc 
+                let accLength = acc |> List.filter (fun x -> x = ["."] || x = ["*"]) |> List.length
+                if ( accLength > 0 && (accLength  % n  = 0) ) then ["."]::["\n"] :: acc else ["."] :: acc 
                 ) [] bs
 
-    let koko = z |> List.filter (fun x -> x = ["."] || x = ["*"]) 
-    if  (koko.Length % n <> 0) then 
-        let x = addToList (n - (koko.Length % n)) ["."] z
+    let koko = z |> List.filter (fun x -> x = ["."] || x = ["*"]) |> List.length
+    if  (koko % n <> 0) then 
+        let x = addToList (n - (koko % n)) ["."] z
         x |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
     else z |> Seq.rev |> Seq.concat |> Seq.map string |> String.concat ""
 
@@ -265,9 +266,11 @@ let n  = 3
 let bs = [| true; false; true; false; true; false; true; false; true|]
 display n bs
 
-1%3
+[] |> List.length
 
-
+3
+7
+11
 
 
 (*
@@ -312,7 +315,10 @@ display n bs
 
 *)
 
-let accumulate f t obs = failwith "not implemented"
+let accumulate f t obs = 
+   obs|> Observable.scan (fun (i, _) x -> f i x) (t, None)
+      |> Observable.choose snd
+
 
 
 
