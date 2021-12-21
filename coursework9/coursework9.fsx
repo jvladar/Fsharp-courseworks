@@ -371,8 +371,12 @@ let chunks n obs = failwith "not implemented"
 
 *)
 
-let sliding n obs = failwith "not implemented"
-
+let sliding n observable =
+   observable |> Observable.scan (fun acc event ->
+      match acc with
+      | x::xs when List.length xs = n-1 -> xs @ [event]
+      | _                               -> acc @ [event]) []
+   |> Observable.filter (fun x -> List.length x = n)
 
 
 
